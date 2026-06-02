@@ -1,0 +1,13 @@
+# Boltz2 affinity prediction template
+# Replace RECEPTOR_SEQUENCE and D_PEPTIDE_SMILES
+version: 1
+sequences:
+  - protein:
+      id: A
+      sequence: RECEPTOR_SEQUENCE
+  - ligand:
+      id: B
+      smiles: "D_PEPTIDE_SMILES"
+properties:
+  - affinity:
+      binder: B

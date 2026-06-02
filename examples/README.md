@@ -13,7 +13,7 @@ Example input files for each stage of the D-peptide design pipeline.
 
 Run with:
 ```bash
-source /home/ubuntu/miniconda/bin/activate boltz
+conda activate drug_design
 
 boltz predict examples/ndufa9_boltz2_affinity.yaml \
     --checkpoint ~/.boltz/boltz2_aff.ckpt \

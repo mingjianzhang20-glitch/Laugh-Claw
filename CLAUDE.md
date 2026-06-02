@@ -1,38 +1,30 @@
-# Claude Code Skill: computational-drug-design-skill
+# Claude Code Instructions for D-Peptide Drug Design
 
-This repository is a Claude Code Skill for de novo D-peptide inhibitor design.
-
-## How to Use
-
-Before starting any task in this pipeline, read the full skill instructions:
-```
-Read SKILL.md before proceeding
+## Setup (run once)
+```bash
+conda env create -f environment.yml
+conda activate drug_design
 ```
 
-## Skill File Locations
+## Key conventions
+- D-amino acids: lowercase single-letter code (e.g., d-lgrmg = D-Leu-D-Gly-D-Arg-D-Met-D-Gly)
+- D-peptide SMILES: use @@ stereochemistry at alpha-carbon
+- L-peptide SMILES: use @ stereochemistry at alpha-carbon
+- N-acetylated peptides: add CC(=O)N- prefix to SMILES
+- All paths: use relative paths, not hardcoded server paths
 
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | Main skill instructions — read this first |
-| `references/boltz2-scoring.md` | Boltz2 IC₅₀ prediction commands |
-| `references/pymol-visualization.md` | PyMOL figure generation |
-| `references/chirality-inversion.md` | L→D chirality inversion code |
-| `references/figure-generation.md` | Publication figure standards |
-| `examples/` | Ready-to-run input YAML files |
+## IC50 formula (Boltz2 output)
+```python
+IC50_nM = 10**(-affinity_pred_value) * 1000
+```
 
-## Quick Task Reference
+## MPO scoring weights
+```python
+composite = 0.3 * logp_score + 0.2 * tpsa_score + 0.5 * ic50_score
+```
 
-| User says | What to do |
-|-----------|-----------|
-| "Run the full pipeline for target X" | Follow all 7 steps in SKILL.md |
-| "Score IC₅₀ for these SMILES" | Read references/boltz2-scoring.md |
-| "Invert chirality of this peptide" | Read references/chirality-inversion.md |
-| "Visualize the binding pocket" | Read references/pymol-visualization.md |
-| "Generate a figure" | Read references/figure-generation.md |
-
-## Environment
-
-- Boltz2 / data processing: `/data/miniconda/envs/boltz/bin/python3`
-- PyMOL: `/home/ubuntu/miniconda/bin/python3`
-- Boltz2 checkpoint: `~/.boltz/boltz2_aff.ckpt`
-- Activate boltz env: `source /home/ubuntu/miniconda/bin/activate boltz`
+## Common errors and fixes
+- SMILES parsing fails: check stereochemistry @@ vs @
+- Boltz2 NaN: receptor sequence too short, use full domain
+- High TPSA: avoid Q,Y,W,K,R,H residues; prefer F,V,L,I,A
+- OpenMM NaN: run restrained EM first before NPT

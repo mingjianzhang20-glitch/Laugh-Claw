@@ -1,0 +1,17 @@
+name: drug_design
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - rdkit=2022.09.5
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - pip
+  - pip:
+    - boltz
+    - openmm==8.5.1
+    - pdbfixer
+    - biopython
