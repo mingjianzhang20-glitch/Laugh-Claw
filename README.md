@@ -1,6 +1,6 @@
 # Computational D-Peptide Drug Design Skill
 
-A Claude Code skill for end-to-end computational D-peptide inhibitor design.
+A Claude Code Skill for end-to-end computational D-peptide inhibitor design.
 
 ## Quick Start
 
@@ -11,7 +11,10 @@ cd computational-drug-design-skill
 conda env create -f environment.yml
 conda activate drug_design
 
-# 2. Run pipeline
+# 2. Download Boltz2 checkpoint (~500MB)
+boltz setup --model boltz2
+
+# 3. Run full pipeline
 python examples/run_pipeline.py \
     --receptor YOUR_RECEPTOR_SEQUENCE \
     --peptides peptide_list.txt \
@@ -19,23 +22,66 @@ python examples/run_pipeline.py \
 ```
 
 ## What it does
-1. Builds D-peptide SMILES from sequence
-2. Predicts IC50 via Boltz2
-3. Calculates LogP, TPSA, MW via RDKit
-4. Scores candidates with MPO (multi-objective optimization)
-5. Ranks and exports results
+
+| Step | Script | Description |
+|------|--------|-------------|
+| 1. Build SMILES | `examples/smiles_builder.py` | D-peptide sequence → SMILES |
+| 2. Predict IC50 | `examples/boltz2_predict.py` | Boltz2 affinity prediction |
+| 3. MPO scoring  | `examples/mpo_analysis.py`   | LogP + TPSA + IC50 filter |
+| 4. MD simulation| `examples/openmm_simulation.py` | OpenMM 100-500ns MD |
+| 5. Full pipeline| `examples/run_pipeline.py`   | End-to-end automation |
+
+## Individual script usage
+
+```bash
+# Build D-peptide SMILES
+python examples/smiles_builder.py --seq lgrmg
+python examples/smiles_builder.py --seq ffflggqpyw --acetylated
+
+# Predict IC50 with Boltz2
+python examples/boltz2_predict.py \
+    --receptor APTLFRL \
+    --smiles "N[C@@H](CC(C)C)C(=O)..." \
+    --name d-lgrmg --output results/
+
+# MPO analysis
+python examples/mpo_analysis.py \
+    --input candidates.csv \
+    --lead_tpsa 263.3 \
+    --output mpo_results.csv
+
+# MD simulation
+python examples/openmm_simulation.py \
+    --pdb complex.pdb \
+    --output md_results/ \
+    --ns 100
+```
 
 ## MPO Criteria
-- C1: 1 ≤ LogP ≤ 3 (membrane permeability)
-- C2: TPSA < lead peptide TPSA (compactness)
-- C3: IC50 < 1000 nM (potency)
 
-## Tested on
-- NDUFA9 target: lead d-LGRMG (IC50=45.2nM)
-- NOTCH1 target: lead d-SSQCF (IC50=574.2nM)
-- 2VSM target: lead d-GITLGGGS (IC50=44.8nM)
+| Criterion | Threshold | Rationale |
+|-----------|-----------|-----------|
+| C1: LogP  | 1 – 3     | Membrane permeability |
+| C2: TPSA  | < lead peptide TPSA | More compact than reference |
+| C3: IC50  | < 1000 nM | Nanomolar potency |
+
+## IC50 formula (Boltz2)
+
+```python
+IC50_nM = 10**(-affinity_pred_value) * 1000
+```
+
+## Tested targets
+
+| Target | Lead D-peptide | IC50 |
+|--------|---------------|------|
+| NDUFA9 | d-LGRMG | 45.2 nM |
+| NOTCH1 | d-SSQCF | 574.2 nM |
+| 2VSM   | d-GITLGGGS | 44.8 nM |
 
 ## Requirements
-- Boltz2 model checkpoint (~/.boltz/boltz2_aff.ckpt)
-- GPU recommended for Boltz2 inference
-- See environment.yml for full dependencies
+
+- Python 3.10+
+- Boltz2 checkpoint: `~/.boltz/boltz2_aff.ckpt`
+- GPU recommended for Boltz2
+- See `environment.yml` for full dependencies
