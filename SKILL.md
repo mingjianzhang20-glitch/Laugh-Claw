@@ -1,5 +1,9 @@
 # Computational D-Peptide Drug Design Skill
 
+## Manuscript reporting status
+
+This file contains historical workflow examples. The corrected manuscript's result identities, affinity interpretation, and evidence limits are documented in [README.md](README.md). The documentation update did not run models or certify this historical workflow as an end-to-end reproduction of the corrected study. Model scores and poses are computational hypotheses; neither the nominal affinity threshold nor the presence of a workflow example demonstrates experimental potency.
+
 ## Description
 This skill enables Claude Code to perform end-to-end computational D-peptide drug design including:
 - Boltz2-based IC50 affinity prediction for D-peptide candidates
@@ -33,7 +37,7 @@ Use this skill when asked to:
 ### Step 2: Generate D-peptide SMILES
 ```python
 from rdkit import Chem
-# D-amino acids use @@ stereochemistry (opposite of L)
+# Historical example: @/@@ symbols alone do not establish L/D identity.
 # See examples/smiles_builder.py
 ```
 
