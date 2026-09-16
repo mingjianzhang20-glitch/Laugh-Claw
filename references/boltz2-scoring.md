@@ -87,7 +87,7 @@ done
 |------|---------|-------------|
 | `--checkpoint` | — | Always use `~/.boltz/boltz2_aff.ckpt` |
 | `--out_dir` | `./predictions` | Output directory |
-| `--devices` | 1 | Number of GPUs; use 2 for dual RTX 4090 |
+| `--devices` | 1 | Number of devices; choose according to the available environment. The example value `2` does not document the manuscript's historical GPU model. |
 | `--accelerator` | gpu | Always use gpu |
 | `--diffusion_samples` | 1 | Increase for diversity |
 | `--sampling_steps` | 200 | Higher = more accurate, slower |
