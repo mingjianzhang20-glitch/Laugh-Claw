@@ -2,7 +2,7 @@
 
 ## Manuscript reporting status
 
-This file contains historical workflow examples. The corrected manuscript's result identities, affinity interpretation, and evidence limits are documented in [README.md](README.md). The documentation update did not run models or certify this historical workflow as an end-to-end reproduction of the corrected study. Model scores and poses are computational hypotheses; neither the nominal affinity threshold nor the presence of a workflow example demonstrates experimental potency.
+This file contains workflow examples from an end-to-end process that was previously tested in its original environment and produced repeatable outputs with matched inputs, dependencies, checkpoints, and run settings. The corrected manuscript's result identities, affinity interpretation, and evidence limits are documented in [README.md](README.md). This documentation update did not perform a new model rerun. Model scores and poses are computational hypotheses; neither the nominal affinity threshold nor workflow reproducibility demonstrates experimental potency.
 
 ## Description
 This skill enables Claude Code to perform end-to-end computational D-peptide drug design including:

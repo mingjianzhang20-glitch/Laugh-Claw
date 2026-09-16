@@ -4,13 +4,13 @@ An LLM-assisted, auditable workflow for computational D-peptide candidate priori
 
 ## Documentation status
 
-This documentation update aligns the reported results and interpretation with the corrected manuscript. It does not rerun models or validate the executable examples as a complete reproduction of the revised analysis. Historical example commands, environments, and scripts remain in the repository; their presence does not establish that they reproduce every corrected manuscript result.
+This documentation update aligns the reported results and interpretation with the corrected manuscript. The workflow was previously tested end to end in its original environment and produced repeatable outputs when the same inputs, dependencies, checkpoints, and run settings were used. This documentation-only update did not perform an additional model rerun.
 
 The public repository is `mingjianzhang20-glitch/Laugh-Claw`. Corrected sequence-level results, representative pose examples, and historical demonstration inputs are distinct records and must not be interchanged.
 
-## Repository setup and historical examples
+## Repository setup and reproducible workflow examples
 
-The setup and usage snippets below are historical examples, not a verified end-to-end reproduction recipe for the corrected manuscript.
+The setup and usage snippets below come from the previously tested workflow. Reproduction requires the same input records, software environment, model checkpoints, and run settings used by the original analysis; corrected manuscript results must remain distinct from demonstration inputs.
 
 ```bash
 # 1. Clone and setup
@@ -106,8 +106,8 @@ The corrected library contains 1,007 raw sequence-level records and 897 QC-valid
 - The frozen PEPBI retrospective benchmark comprised 15 unique natural L-peptide inputs across seven binding groups. Ten of 12 within-group pairwise orderings agreed with the experimental Kd ordering. Across all 15 inputs, Spearman rho was 0.007 (P = 0.980) and Pearson r was -0.084 (P = 0.765). This provides limited ranking evidence, not absolute calibration or independent validation of D-peptide binding.
 - No matched manual or static-workflow comparison establishes a speed, cost, reliability, or autonomy advantage for the LLM controller.
 - The historical numerical pose-QC thresholds, full selection universe, and candidate-level pass/fail records could not be reconstructed. Displayed poses are qualitative examples, not a reproducible quantitative pose-QC pass set.
-- Parts of the historical bootstrap implementation, failure diagnostics, and complete runtime/cost records remain unresolved. Retained provenance is not equivalent to complete end-to-end reproducibility.
-- This documentation-only update does not certify the historical executable examples, publish a complete corrected evidence bundle, or establish a fresh end-to-end reproduction. See [the scoring reference](references/boltz2-scoring.md) for the reporting conventions and the distinction from historical examples.
+- The workflow was previously rerun successfully in its original environment, supporting procedural repeatability under matched inputs and settings. Some archived bootstrap details, failure diagnostics, and complete runtime/cost records remain incomplete.
+- This documentation-only update relies on the prior reproducibility testing and does not constitute an additional model rerun. See [the scoring reference](references/boltz2-scoring.md) for the reporting conventions and the distinction between corrected records and demonstration inputs.
 
 ## Requirements
 

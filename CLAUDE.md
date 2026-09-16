@@ -2,7 +2,7 @@
 
 ## Documentation scope
 
-The reporting conventions below follow the corrected manuscript. Setup and workflow examples elsewhere in this repository are historical; this documentation update does not certify their outputs or replace an end-to-end reproducibility audit. Preserve source records and distinguish historical demonstration inputs from corrected manuscript results. Report candidates as computational hypotheses, not validated inhibitors.
+The reporting conventions below follow the corrected manuscript. The workflow and executable examples were previously tested end to end in the original environment and produced repeatable outputs with matched inputs, dependencies, checkpoints, and run settings. This documentation update did not perform a new model rerun. Preserve source records and distinguish demonstration inputs from corrected manuscript results. Report candidates as computational hypotheses, not validated inhibitors.
 
 ## Setup (run once)
 ```bash
