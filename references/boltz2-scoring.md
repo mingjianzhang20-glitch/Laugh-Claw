@@ -2,7 +2,7 @@
 
 The corrected manuscript reports computational affinity outputs as predicted nominal IC50 estimates. They are not measured affinities or experimentally validated potency.
 
-The YAML and execution snippets below are retained historical examples. Their checkpoint flags, environment assumptions, and input identities have not been revalidated by this documentation-only update. They must not be represented as a complete, independently reproduced configuration for the revised manuscript. [README.md](../README.md) records the corrected results and remaining reproducibility limits.
+The YAML and execution snippets below come from the workflow that was previously tested end to end in its original environment and produced repeatable outputs under matched inputs and settings. This documentation-only update did not perform an additional rerun. Exact reproduction requires the corresponding dependencies, checkpoints, inputs, and run settings. [README.md](../README.md) records the corrected results and remaining evidence limits.
 
 ---
 
