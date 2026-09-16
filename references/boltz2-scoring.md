@@ -1,6 +1,8 @@
-# Boltz2 IC₅₀ Scoring
+# Boltz2 affinity reporting and historical scoring examples
 
-Detailed reference for running Boltz2 affinity predictions in the D-peptide design pipeline.
+The corrected manuscript reports computational affinity outputs as predicted nominal IC50 estimates. They are not measured affinities or experimentally validated potency.
+
+The YAML and execution snippets below are retained historical examples. Their checkpoint flags, environment assumptions, and input identities have not been revalidated by this documentation-only update. They must not be represented as a complete, independently reproduced configuration for the revised manuscript. [README.md](../README.md) records the corrected results and remaining reproducibility limits.
 
 ---
 
@@ -95,38 +97,31 @@ done
 
 ## Parsing Results
 
-```python
-import json, glob
-import pandas as pd
+The previous snippet incorrectly assigned the raw `affinity_pred_value` directly to a field named `ic50_nM`. That snippet has been withdrawn.
 
-results = []
-for f in glob.glob('affinity_output/**/affinity*.json', recursive=True):
-    with open(f) as fh:
-        data = json.load(fh)
-    results.append({
-        'candidate': f,
-        'ic50_nM': data.get('affinity_pred_value'),
-        'confidence': data.get('affinity_probability')
-    })
+In the corrected manuscript, `affinity_pred_value` is the continuous log10(IC50) output with IC50 expressed in μM. Predicted nominal IC50 in nM is reported as `10^(affinity_pred_value) × 1000`. The raw value is not itself an nM concentration. The separate `affinity_probability_binary` field represents binder-versus-decoy probability and is not used as the continuous affinity ranking value.
 
-df = pd.DataFrame(results).sort_values('ic50_nM')
-df.to_csv('candidates_ranked.csv', index=False)
-print(df.head(10))
-```
+Missing or invalid output must not be reported as a successful affinity estimate. Experimental Kd remains a separate experimental quantity. No derived ΔG is used in the revised analysis.
 
 ---
 
-## Validated Results
+## Corrected manuscript records
 
-| Target | Best D-peptide | IC₅₀ |
+These author-verified sequence-to-score assignments are computational prioritization records, not experimentally validated binding results. Historical example inputs above are not evidence for these corrected identities.
+
+| Target | Corrected prioritized candidate | Predicted nominal IC50 (nM) |
 |--------|---------------|------|
-| NDUFA9 | d-LGRMG | 45.2 nM |
-| NOTCH1 | d-SSQCF | 574.2 nM |
-| 2VSM | d-GITLGGGS | 44.8 nM |
+| NDUFA9 | d-VIIPY | 45.2 |
+| NOTCH1 | d-MIFPY | 574.2 |
+| 2VSM | d-PLPPIKPR | 44.8 |
+
+The corrected manuscript also reports a small natural L-peptide PEPBI benchmark. It supports only a limited statement about within-group ordering, not quantitative calibration of the nominal scale or experimental validation of these D-peptide candidates. See [the evidence summary](../README.md#evidence-and-reproducibility-limits).
 
 ---
 
-## Common Errors
+## Historical troubleshooting notes
+
+The statements below are retained historical notes, not verified failure diagnoses or a validated configuration for the revised manuscript. The manuscript explicitly reports gaps in historical failure diagnostics. Do not infer a root cause or silently substitute settings from these notes.
 
 **Wrong checkpoint**: Always use `~/.boltz/boltz2_aff.ckpt`. The default checkpoint produces wrong results silently.
 
