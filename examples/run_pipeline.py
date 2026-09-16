@@ -8,6 +8,11 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Descriptors
 
+try:
+    from .affinity_utils import predicted_nominal_ic50_nm
+except ImportError:  # Support direct execution: python examples/run_pipeline.py
+    from affinity_utils import predicted_nominal_ic50_nm
+
 def build_d_peptide_smiles(sequence):
     """Build SMILES for D-peptide from single-letter code (lowercase)."""
     aa_smiles = {
@@ -95,7 +100,7 @@ def extract_ic50(result_dir):
             data = json.load(f)
         aff = data.get('affinity_pred_value')
         if aff is not None:
-            values.append(10**(-aff) * 1000)
+            values.append(predicted_nominal_ic50_nm(aff))
     return round(sum(values)/len(values), 1) if values else None
 
 def mpo_score(LogP, TPSA, IC50_nM, lead_TPSA=263.3):

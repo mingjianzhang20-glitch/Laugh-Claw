@@ -4,6 +4,11 @@ Usage: python boltz2_predict.py --receptor SEQ --smiles SMILES --name myligand -
 """
 import argparse, os, subprocess, json, glob
 
+try:
+    from .affinity_utils import predicted_nominal_ic50_nm
+except ImportError:  # Support direct execution: python examples/boltz2_predict.py
+    from affinity_utils import predicted_nominal_ic50_nm
+
 def create_yaml(name, receptor_seq, ligand_smiles, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     yaml = f"""version: 1
@@ -50,8 +55,7 @@ def extract_ic50(result_dir):
             data = json.load(f)
         aff = data.get('affinity_pred_value')
         if aff is not None:
-            # IC50 formula: 10^(-affinity_pred_value) * 1000
-            values.append(10**(-aff) * 1000)
+            values.append(predicted_nominal_ic50_nm(aff))
     if not values:
         return None, None
     mean_ic50 = round(sum(values)/len(values), 1)
